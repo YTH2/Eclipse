@@ -50,7 +50,6 @@ public class Event
 	 * @return
 	 * @throws ParseException
 	 */
-	// TODO 通过数据文件的名称计算传感器的激发时间
 	private static long getTime(String dataFileName, int i, long count)
 	{
 		int second = (int) (i * 60 / 1000 + count * 10);

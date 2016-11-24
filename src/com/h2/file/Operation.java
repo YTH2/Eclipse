@@ -34,7 +34,6 @@ public class Operation
 		try
 		{
 			BufferedReader read = new BufferedReader(new FileReader(new File(path)));
-
 			while ((inteString = read.readLine()) != null)
 			{
 				String[] str = StringUtils.split(inteString, " ");
@@ -63,6 +62,7 @@ public class Operation
 	 */
 	public static void outputLocation(String path, Sensor sensor)
 	{
+		// 查看输出文件是否存在
 		File fi = new File(path);
 		try
 		{
@@ -74,6 +74,7 @@ public class Operation
 		{
 			System.out.println("震源位置文件创建失败！");
 		}
+		
 		FileWriter writer = null;
 		try
 		{

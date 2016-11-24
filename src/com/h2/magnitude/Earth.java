@@ -16,7 +16,7 @@ public class Earth
 		FileWriter writer = null;
 		double[] values = new double[count];
 
-		int j = 0;
+		int j = 0;// 表示多个少震级，然后求平均值
 		for (int i = 0; i < sensors.length; i++)
 		{
 			if (sensors[i].isSign())

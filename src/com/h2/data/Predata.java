@@ -101,7 +101,6 @@ public class Predata
 		// 确定传感器两种文件位置
 		sensor.setDataFile(FindFile.getFileName(Parameters.DATAPATH[i]));
 		sensor.setGPSFile(Parameters.GPSPATH[i]);
-
 		sensor.setOutPutfile(Parameters.EARTHDATAFILE[i]);
 
 		// 需要通过读取gps文件获取

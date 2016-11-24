@@ -30,7 +30,7 @@ public class Parameters
 	public static final int SensorNum = 5;// 传感器总数量
 	public static final int RULENum = 5;// 确定的读取数量 Cmn中的n 至少有五个传感器的数据才能进行定位
 	/**
-	 * 读取数据文件的路径
+	 * 读取数据文件的路径，这里只是目录
 	 */
 	public static final String[] DATAPATH = { "D://Data//Sensor1//", "D://Data//Sensor2//", "D://Data//Sensor3//",
 			"D://Data//Sensor4//", "D://Data//Sensor5//" };// 每个传感器的探测数据来自不同的文件
@@ -42,8 +42,8 @@ public class Parameters
 	/**
 	 * 地震数据输出路径
 	 */
-	public static final String[] EARTHDATAFILE = { "D://Data//Sensor1//backup.txt", "D://Data//Sensor2//backup.txt",
-			"D://Data//Sensor3//backup.txt", "D://Data//Sensor4//backup.txt", "D://Data//Sensor5//backup.txt" };// 不同的文件存储不同传感器的信息
+	public static final String[] EARTHDATAFILE = { "D://Data//Sensor1//Backup.txt", "D://Data//Sensor2//Backup.txt",
+			"D://Data//Sensor3//Backup.txt", "D://Data//Sensor4//Backup.txt", "D://Data//Sensor5//Backup.txt" };// 不同的文件存储不同传感器的信息
 	/**
 	 * 震源信息输出路径
 	 */

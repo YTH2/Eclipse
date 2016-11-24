@@ -53,8 +53,7 @@ public class LinearAlgebra
 	 */
 	private static double getLinearAlgebraT(Sensor sensor1, Sensor sensor2)
 	{
-		double t = (getT(sensor1) - getT(sensor2)) / 2;
-		return t;
+		return (getT(sensor1) - getT(sensor2)) / 2;
 	}
 
 	/**
@@ -65,9 +64,9 @@ public class LinearAlgebra
 	 */
 	private static double getT(Sensor sensor)
 	{
-		double t = Math.pow(Parameters.C, 2) * Math.pow(sensor.getTime(), 2) - (Math.pow(sensor.getAltitude(), 2)
+		return Math.pow(Parameters.C, 2) * Math.pow(sensor.getTime(), 2) - (Math.pow(sensor.getAltitude(), 2)
 				+ Math.pow(sensor.getLatitude(), 2) + Math.pow(sensor.getLongtitude(), 2));
-		return t;
+
 	}
 
 	/**
@@ -99,7 +98,7 @@ public class LinearAlgebra
 	{
 		int[] h1 = Tools.getTime(t1);
 		int[] h2 = Tools.getTime(t2);
-		String str = (h2[0] - h1[0]) + "" + (h2[1] - h1[1]) + "" + (h2[2] - h1[2]);
+		String str = (h2[0] - h1[0]) * 3600 + "" + (h2[1] - h1[1]) * 60 + "" + (h2[2] - h1[2]);
 		return Double.parseDouble(str);
 	}
 }

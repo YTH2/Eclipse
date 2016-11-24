@@ -86,13 +86,13 @@ public class Location
 
 				hour += sen.getTime() / 10000;
 				second += sen.getTime() % 100;
-				minute += sen.getTime() % 10000 / 100;
+				minute += (sen.getTime() % 10000) / 100;
 
 			}
 			sensor.setAltitude(Altitude / sensorCount);
 			sensor.setLongtitude(Longtitude / sensorCount);
 			sensor.setLatitude(Latitude / sensorCount);
-			
+
 			t = hour / sensorCount + "" + minute / sensorCount + "" + second / sensorCount;// 将时间拼接成字符串转换为long
 			sensor.setTime(Long.parseLong(t));
 		}

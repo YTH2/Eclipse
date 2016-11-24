@@ -187,7 +187,7 @@ public class Tools
 		int[] time = { 0, 0, 0 };// 时分秒
 
 		time[0] = (int) (ti / 10000);
-		time[1] = (int) (ti % 10000 / 100);
+		time[1] = (int) ((ti % 10000) / 100);
 		time[2] = (int) (ti % 100);
 
 		return time;
