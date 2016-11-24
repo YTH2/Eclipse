@@ -74,7 +74,7 @@ public class Operation
 		{
 			System.out.println("震源位置文件创建失败！");
 		}
-		
+
 		FileWriter writer = null;
 		try
 		{
@@ -117,40 +117,6 @@ public class Operation
 	}
 
 	/**
-	 * 返回两个时间之间的差值 单位是1s
-	 * 
-	 * @param str1
-	 *            数据文件名中的时间
-	 * @param str2
-	 *            激发时间
-	 * @return
-	 */
-	private static int getTimeDif10s(String str1, String str2)
-	{
-
-		Calendar cal1 = GregorianCalendar.getInstance();
-		Calendar cal2 = GregorianCalendar.getInstance();
-
-		DateFormat df = new SimpleDateFormat("hhmmss");
-
-		int begin = str1.lastIndexOf("/");
-		int end = str1.lastIndexOf(".");
-		str1 = str1.substring(begin + 1, end);
-
-		try
-		{
-			cal1.setTime(df.parse(str1));
-			cal2.setTime(df.parse(str2));
-		} catch (ParseException e)
-		{
-			System.out.println("Operation类------------时间转换错误！");
-			e.printStackTrace();
-		}
-
-		return cal2.compareTo(cal1);
-	}
-
-	/**
 	 * 以追加的方式输出激发传感器前后5s内的数据
 	 * 
 	 * @param path
@@ -174,7 +140,7 @@ public class Operation
 			System.out.println("激发数据存储失败！");
 		}
 		// 传感器激发时间与文件数据记录时间之差
-		int dif = getTimeDif10s(sensor.getDataFile(), String.valueOf(sensor.getTime()));
+		int dif = getTimeDif10s(sensor.getDataFile(), sensor.getTime());
 		if (dif <= 5)
 		{// 从文件的头开始读取数据
 			try
@@ -183,7 +149,7 @@ public class Operation
 				// 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
 				writer = new BufferedWriter(new FileWriter(new File(sensor.getOutPutfile()), true));
 				writer.write("---------------------------------------------------------");
-				writer.write(String.valueOf(sensor.getTime()));// 传感器的激发时间
+				writer.write(sensor.getTime());// 传感器的激发时间
 				writer.write("---------------------------------------------------------");
 				while (count > 0 && ((s = reader.readLine()) != null))
 				{
@@ -225,7 +191,7 @@ public class Operation
 				}
 				writer = new BufferedWriter(new FileWriter(new File(sensor.getOutPutfile()), true));
 				writer.write("---------------------------------------------------------");
-				writer.write(String.valueOf(sensor.getTime()));// 传感器的激发时间
+				writer.write(sensor.getTime());// 传感器的激发时间
 				writer.write("---------------------------------------------------------");
 				while (count > 0 && ((s = reader.readLine()) != null))
 				{
@@ -255,6 +221,40 @@ public class Operation
 			}
 		}
 
+	}
+
+	/**
+	 * 返回两个时间之间的差值 单位是1s
+	 * 
+	 * @param str1
+	 *            数据文件名中的时间
+	 * @param str2
+	 *            激发时间
+	 * @return
+	 */
+	private static int getTimeDif10s(String str1, String str2)
+	{
+	
+		Calendar cal1 = GregorianCalendar.getInstance();
+		Calendar cal2 = GregorianCalendar.getInstance();
+	
+		DateFormat df = new SimpleDateFormat("hhmmss");
+	
+		int begin = str1.lastIndexOf("/");
+		int end = str1.lastIndexOf(".");
+		str1 = str1.substring(begin + 1, end);
+	
+		try
+		{
+			cal1.setTime(df.parse(str1));
+			cal2.setTime(df.parse(str2));
+		} catch (ParseException e)
+		{
+			System.out.println("Operation类------------时间转换错误！");
+			e.printStackTrace();
+		}
+	
+		return cal2.compareTo(cal1);
 	}
 
 }

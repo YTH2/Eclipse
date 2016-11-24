@@ -95,7 +95,7 @@ public class Predata
 		Sensor sensor = new Sensor();
 
 		sensor.setSign(false);
-		sensor.setTime(0);
+		sensor.setTime("000000");
 		sensor.setFudu(0);
 
 		// 确定传感器两种文件位置

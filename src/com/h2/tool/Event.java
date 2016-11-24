@@ -26,7 +26,7 @@ public class Event
 			{
 				if (!sensors[j].isSign())
 				{
-					boolean inter = Tools.getToken(sensors[j].getDataFile(), i, count,sensors[j]);
+					boolean inter = Tools.getToken(sensors[j].getDataFile(), i, count, sensors[j]);
 					if (inter)
 					{
 						sensors[j].setSign(inter);
@@ -50,10 +50,10 @@ public class Event
 	 * @return
 	 * @throws ParseException
 	 */
-	private static long getTime(String dataFileName, int i, long count)
+	private static String getTime(String dataFileName, int i, long count)
 	{
 		int second = (int) (i * 60 / 1000 + count * 10);
-		
+
 		int begin = dataFileName.lastIndexOf("/");
 		int end = dataFileName.lastIndexOf(".");
 		dataFileName = dataFileName.substring(begin + 1, end);
@@ -69,8 +69,23 @@ public class Event
 			e.printStackTrace();
 		}
 		cal.add(Calendar.SECOND, second);
-		return Long.parseLong(
-				cal.get(Calendar.HOUR_OF_DAY) + "" + cal.get(Calendar.MINUTE) + "" + cal.get(Calendar.SECOND));
+		return handleTime(cal.get(Calendar.HOUR_OF_DAY)) + "" + handleTime(cal.get(Calendar.MINUTE)) + ""
+				+ handleTime(cal.get(Calendar.SECOND));
 
+	}
+
+	/**
+	 * 确保数据是两位长
+	 * 
+	 * @param time
+	 * @return
+	 */
+	private static String handleTime(int time)
+	{
+		if (time / 10 == 0)
+		{
+			return "0" + time;
+		}
+		return String.valueOf(time);
 	}
 }

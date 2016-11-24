@@ -5,7 +5,7 @@ public class Sensor
 	public Sensor()
 	{
 		this.sign = false;
-		this.time = 0;
+		this.time = "000000";
 		this.fudu = 0;
 
 		this.Altitude = 0;
@@ -33,12 +33,12 @@ public class Sensor
 		this.sign = sign;
 	}
 
-	public long getTime()
+	public String getTime()
 	{
 		return time;
 	}
 
-	public void setTime(long time)
+	public void setTime(String time)
 	{
 		this.time = time;
 	}
@@ -102,7 +102,7 @@ public class Sensor
 	{
 		OutPutfile = outPutfile;
 	}
-	
+
 	public int getFudu()
 	{
 		return fudu;
@@ -114,7 +114,7 @@ public class Sensor
 	}
 
 	private boolean sign;// 标识是否被激发
-	private long time;// 激发的时间
+	private String time;// 激发的时间
 	private int fudu;// 最大振幅
 
 	private double Longtitude;// 经线

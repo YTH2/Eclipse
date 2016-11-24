@@ -1,5 +1,9 @@
 package com.h2.tool;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.jblas.DoubleMatrix;
@@ -27,7 +31,6 @@ public class LinearAlgebra
 		DoubleMatrix C = getC(sensors);
 		B = Solve.pinv(A).mmul(C);
 		// 通过B给sensor赋值
-		sensor.setTime((long) B.get(0));
 		sensor.setLatitude(B.get(1));
 		sensor.setLongtitude(B.get(2));
 		sensor.setAltitude(B.get(3));
@@ -64,8 +67,9 @@ public class LinearAlgebra
 	 */
 	private static double getT(Sensor sensor)
 	{
-		return Math.pow(Parameters.C, 2) * Math.pow(sensor.getTime(), 2) - (Math.pow(sensor.getAltitude(), 2)
-				+ Math.pow(sensor.getLatitude(), 2) + Math.pow(sensor.getLongtitude(), 2));
+		return Math.pow(Parameters.C, 2) * Math.pow(Integer.parseInt(sensor.getTime()), 2)
+				- (Math.pow(sensor.getAltitude(), 2) + Math.pow(sensor.getLatitude(), 2)
+						+ Math.pow(sensor.getLongtitude(), 2));
 
 	}
 
@@ -94,11 +98,26 @@ public class LinearAlgebra
 		return v;
 	}
 
-	private static double getTimeDiff(long t1, long t2)
+	private static int getTimeDiff(String t1, String t2)
 	{
-		int[] h1 = Tools.getTime(t1);
-		int[] h2 = Tools.getTime(t2);
-		String str = (h2[0] - h1[0]) * 3600 + "" + (h2[1] - h1[1]) * 60 + "" + (h2[2] - h1[2]);
-		return Double.parseDouble(str);
+		Calendar cal1 = Calendar.getInstance();
+		Calendar cal2 = Calendar.getInstance();
+
+		DateFormat df = new SimpleDateFormat("hhmmss");
+
+		try
+		{
+			cal1.setTime(df.parse(t1));
+			cal2.setTime(df.parse(t2));
+		} catch (ParseException e)
+		{
+			System.out.println("LinearAlgebra----------时间转换错误！");
+			e.printStackTrace();
+		}
+
+		return (cal1.get(Calendar.HOUR_OF_DAY) - cal2.get(Calendar.HOUR_OF_DAY)) * 3600
+				+ (cal1.get(Calendar.MINUTE) - cal2.get(Calendar.MINUTE)) * 60
+				+ (cal1.get(Calendar.SECOND) - cal2.get(Calendar.SECOND));
+
 	}
 }

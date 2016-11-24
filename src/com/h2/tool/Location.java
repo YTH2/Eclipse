@@ -2,7 +2,6 @@ package com.h2.tool;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
 import com.h2.data.Predata;
@@ -51,8 +50,7 @@ public class Location
 		{
 			sensors.add(Token[id]);
 		}
-		Sensor sen = LinearAlgebra.getXYZ(sensors);
-		return sen;
+		return LinearAlgebra.getXYZ(sensors);
 	}
 
 	/**
@@ -72,29 +70,17 @@ public class Location
 			double Longtitude = 0;
 			double Latitude = 0;
 
-			int hour = 0;
-			int minute = 0;
-			int second = 0;
-
-			String t = "";
-
 			for (Sensor sen : sensors)
 			{
 				Altitude += sen.getAltitude();
 				Longtitude += sen.getLongtitude();
 				Latitude += sen.getLatitude();
 
-				hour += sen.getTime() / 10000;
-				second += sen.getTime() % 100;
-				minute += (sen.getTime() % 10000) / 100;
-
 			}
 			sensor.setAltitude(Altitude / sensorCount);
 			sensor.setLongtitude(Longtitude / sensorCount);
 			sensor.setLatitude(Latitude / sensorCount);
 
-			t = hour / sensorCount + "" + minute / sensorCount + "" + second / sensorCount;// 将时间拼接成字符串转换为long
-			sensor.setTime(Long.parseLong(t));
 		}
 		return sensor;
 	}
