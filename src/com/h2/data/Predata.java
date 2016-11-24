@@ -3,6 +3,7 @@ package com.h2.data;
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
 import com.h2.file.Operation;
+import com.h2.tool.FindFile;
 
 public class Predata
 {
@@ -98,8 +99,7 @@ public class Predata
 		sensor.setFudu(0);
 
 		// 确定传感器两种文件位置
-		// TODO 确定传感器数据文件的位置
-		sensor.setDataFile(Parameters.DATAPATH[i]);
+		sensor.setDataFile(FindFile.getFileName(Parameters.DATAPATH[i]));
 		sensor.setGPSFile(Parameters.GPSPATH[i]);
 
 		sensor.setOutPutfile(Parameters.EARTHDATAFILE[i]);
