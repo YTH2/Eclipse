@@ -234,16 +234,16 @@ public class Operation
 	 */
 	private static int getTimeDif10s(String str1, String str2)
 	{
-	
-		Calendar cal1 = GregorianCalendar.getInstance();
-		Calendar cal2 = GregorianCalendar.getInstance();
-	
-		DateFormat df = new SimpleDateFormat("hhmmss");
-	
+
+		Calendar cal1 = GregorianCalendar.getInstance();// 数据文件的时间
+		Calendar cal2 = GregorianCalendar.getInstance();// 激发时间
+
+		DateFormat df = new SimpleDateFormat("hhmmss");// 格式化时间
+
 		int begin = str1.lastIndexOf("/");
 		int end = str1.lastIndexOf(".");
-		str1 = str1.substring(begin + 1, end);
-	
+		str1 = str1.substring(begin + 7, end);
+
 		try
 		{
 			cal1.setTime(df.parse(str1));
@@ -253,7 +253,7 @@ public class Operation
 			System.out.println("Operation类------------时间转换错误！");
 			e.printStackTrace();
 		}
-	
+
 		return cal2.compareTo(cal1);
 	}
 

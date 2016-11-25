@@ -56,7 +56,7 @@ public class Event
 
 		int begin = dataFileName.lastIndexOf("/");
 		int end = dataFileName.lastIndexOf(".");
-		dataFileName = dataFileName.substring(begin + 1, end);
+		dataFileName = dataFileName.substring(begin + 7, end);
 
 		Calendar cal = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat("hhmmss");
