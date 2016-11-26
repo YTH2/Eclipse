@@ -80,7 +80,7 @@ public class Operation
 		{
 			// 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
 			writer = new FileWriter(path, true);
-			writer.write(sensor.toString());
+			writer.write(sensor.toString()+"\n");
 		} catch (IOException e)
 		{
 			System.out.println("输出震源数据失败！");
@@ -148,12 +148,12 @@ public class Operation
 				reader = new BufferedReader(new FileReader(new File(sensor.getDataFile())));
 				// 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
 				writer = new BufferedWriter(new FileWriter(new File(sensor.getOutPutfile()), true));
-				writer.write("---------------------------------------------------------");
-				writer.write(sensor.getTime());// 传感器的激发时间
-				writer.write("---------------------------------------------------------");
+				writer.write("---------------------------------------------------------\n");
+				writer.write(sensor.getTime()+"\n");// 传感器的激发时间
+				writer.write("---------------------------------------------------------\n");
 				while (count > 0 && ((s = reader.readLine()) != null))
 				{
-					writer.write(s);
+					writer.write(s+"\n");
 					count--;
 				}
 
@@ -190,12 +190,12 @@ public class Operation
 					reduCount--;
 				}
 				writer = new BufferedWriter(new FileWriter(new File(sensor.getOutPutfile()), true));
-				writer.write("---------------------------------------------------------");
-				writer.write(sensor.getTime());// 传感器的激发时间
-				writer.write("---------------------------------------------------------");
+				writer.write("---------------------------------------------------------\n");
+				writer.write(sensor.getTime()+"\n");// 传感器的激发时间
+				writer.write("---------------------------------------------------------\n");
 				while (count > 0 && ((s = reader.readLine()) != null))
 				{
-					writer.write(s);
+					writer.write(s+"\n");
 					count--;
 				}
 
@@ -253,8 +253,8 @@ public class Operation
 			System.out.println("Operation类------------时间转换错误！");
 			e.printStackTrace();
 		}
-
-		return cal2.compareTo(cal1);
+		return (cal2.get(Calendar.HOUR_OF_DAY)-cal1.get(Calendar.HOUR_OF_DAY))*3600+(cal2.get(Calendar.MINUTE)-cal1.get(Calendar.MINUTE))*60+(cal2.get(Calendar.SECOND)-cal1.get(Calendar.SECOND));
+		 
 	}
 
 }
