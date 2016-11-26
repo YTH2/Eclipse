@@ -37,8 +37,8 @@ public class Parameters
 	/**
 	 * 读取GPS文件的路径
 	 */
-	public static final String[] GPSPATH = { "D://Data//Sensor1//Gps.txt", "D://Data//Sensor2//Gps.txt",
-			"D://Data//Sensor3//Gps.txt", "D://Data//Sensor4//Gps.txt", "D://Data//Sensor5//Gps.txt" };// 每个传感器的位置信息来自不同的文件
+	public static final String[] GPSPATH = { "D://Data//Sensor1//GPS.txt", "D://Data//Sensor2//GPS.txt",
+			"D://Data//Sensor3//GPS.txt", "D://Data//Sensor4//GPS.txt", "D://Data//Sensor5//GPS.txt" };// 每个传感器的位置信息来自不同的文件
 	/**
 	 * 地震数据输出路径
 	 */
