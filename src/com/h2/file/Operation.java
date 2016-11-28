@@ -40,7 +40,6 @@ public class Operation
 				String[] str = StringUtils.split(inteString, " ");
 				if (str.length == 8)
 				{
-					// TODO 需要对gps数据进行矫正
 					result = handle(str[5]) + " " + handle(str[6]) + " " + str[7];// 经度维度海拔
 				}
 			}
