@@ -32,7 +32,7 @@ public class Earth
 		try
 		{
 			writer = new FileWriter(new File(Parameters.EARTHClassFILE), true);
-			writer.write(String.valueOf(earthclass / count)+"\n");
+			writer.write(String.valueOf(earthclass / count) + "\n");
 		} catch (IOException e)
 		{
 			e.printStackTrace();
