@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,7 +41,7 @@ public class Operation
 				if (str.length == 8)
 				{
 					// TODO 需要对gps数据进行矫正
-					result = str[5] + " " + str[6] + " " + str[7];// 经度维度海拔
+					result = handle(str[5]) + " " + handle(str[6]) + " " + str[7];// 经度维度海拔
 				}
 			}
 			read.close();
@@ -257,6 +258,18 @@ public class Operation
 				+ (cal2.get(Calendar.MINUTE) - cal1.get(Calendar.MINUTE)) * 60
 				+ (cal2.get(Calendar.SECOND) - cal1.get(Calendar.SECOND));
 
+	}
+
+	/**
+	 * 矫正经纬度
+	 * 
+	 * @param str
+	 * @return
+	 */
+	private static String handle(String str)
+	{
+		DecimalFormat df = new DecimalFormat("0.00");
+		return df.format(Double.parseDouble(str) / 100);
 	}
 
 }
