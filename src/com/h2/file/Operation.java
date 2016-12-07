@@ -46,7 +46,7 @@ public class Operation
 			read.close();
 		} catch (Exception e)
 		{
-			System.out.println("GPS文件数据读取失败！");
+			System.out.println(path+"----GPS文件数据读取失败！");
 			e.printStackTrace();
 		}
 		return result;
@@ -111,7 +111,7 @@ public class Operation
 		{
 			if (sensors[i].isSign())
 			{
-				outputEarthData(sensors[i]);
+				outputEarthData(sensors[i],i+1);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ public class Operation
 	 * 
 	 * @param path
 	 */
-	private static void outputEarthData(Sensor sensor)
+	private static void outputEarthData(Sensor sensor,int i)
 	{
 		BufferedWriter writer = null;
 		BufferedReader reader = null;
@@ -137,7 +137,7 @@ public class Operation
 			}
 		} catch (Exception e)
 		{
-			System.out.println("激发数据存储失败！");
+			System.out.println("传感器-"+i+"-激发数据存储失败！");
 		}
 		// 传感器激发时间与文件数据记录时间之差
 		int dif = getTimeDif10s(sensor.getDataFile(), sensor.getTime());
@@ -149,7 +149,7 @@ public class Operation
 				// 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
 				writer = new BufferedWriter(new FileWriter(new File(sensor.getOutPutfile()), true));
 				writer.write("---------------------------------------------------------\n");
-				writer.write("传感器的激发时间:    " + sensor.getTime() + "\n");// 传感器的激发时间
+				writer.write("传感器"+i+"的激发时间:    " + sensor.getTime() + "\n");// 传感器的激发时间
 				writer.write("---------------------------------------------------------\n");
 				while (count > 0 && ((s = reader.readLine()) != null))
 				{

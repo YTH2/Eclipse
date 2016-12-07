@@ -81,6 +81,9 @@ public class Location
 			sensor.setLongtitude(Longtitude / sensorCount);
 			sensor.setLatitude(Latitude / sensorCount);
 
+		} else
+		{
+			sensor = sensors[0];
 		}
 		return sensor;
 	}
