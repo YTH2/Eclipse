@@ -9,7 +9,16 @@ import com.h2.constant.Sensor;
 
 public class Earth
 {
-
+	/**
+	 * 输出震级
+	 * 
+	 * @param sensor
+	 *            上一步中求得的震源的坐标
+	 * @param sensors
+	 *            部署的传感器的数组
+	 * @param count
+	 *            激发的传感器的数量
+	 */
 	public static void outputEarthClass(Sensor sensor, Sensor[] sensors, int count)
 	{
 		double earthclass = 0;// 震级变量
@@ -53,8 +62,8 @@ public class Earth
 
 	private static double getOneEarthClass(Sensor s, Sensor s2)
 	{
-		double distance=getDistance(s, s2);
-		if ( distance< 0.5 || distance > 5)
+		double distance = getDistance(s, s2);
+		if (distance < 0.5 || distance > 5)
 		{
 			return 0;
 		}
