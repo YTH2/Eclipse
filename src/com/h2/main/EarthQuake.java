@@ -17,9 +17,11 @@ public class EarthQuake
 		 */
 		Sensor[] Token = Predata.loadSensorInfo(Parameters.SensorNum);
 
+		long i = 0;// 这是第几次进行循环 用于激发时间的计算
+		
 		while (true)
 		{
-			long i = 0;// 这是第几次进行循环 用于激发时间的计算
+
 			/**
 			 * 第二步：读取文件中的数据 第三步：计算平均振幅
 			 */
@@ -40,7 +42,13 @@ public class EarthQuake
 			}
 
 			i++;
+			// 重置token
+			for (Sensor sensor : Token)
+			{
+				sensor.setFudu(0);
+				sensor.setSign(false);
+				sensor.setTime("000000");
+			}
 		}
 	}
-
 }

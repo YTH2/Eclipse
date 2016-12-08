@@ -53,11 +53,12 @@ public class Earth
 
 	private static double getOneEarthClass(Sensor s, Sensor s2)
 	{
-		if (getDistance(s, s2) < 0.5 || getDistance(s, s2) > 5)
+		double distance=getDistance(s, s2);
+		if ( distance< 0.5 || distance > 5)
 		{
 			return 0;
 		}
-		return Math.log((double) s2.getFudu()) + getR(getDistance(s, s2));
+		return Math.log((double) s2.getFudu()) + getR(distance);
 	}
 
 	private static double getDistance(Sensor s1, Sensor s2)

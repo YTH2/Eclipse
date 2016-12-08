@@ -191,7 +191,7 @@ public class Operation
 				}
 				writer = new BufferedWriter(new FileWriter(new File(sensor.getOutPutfile()), true));
 				writer.write("---------------------------------------------------------\n");
-				writer.write("传感器的激发时间:    " + sensor.getTime() + "\n");// 传感器的激发时间
+				writer.write("传感器"+i+"的激发时间:    " + sensor.getTime() + "\n");// 传感器的激发时间
 				writer.write("---------------------------------------------------------\n");
 				while (count > 0 && ((s = reader.readLine()) != null))
 				{
