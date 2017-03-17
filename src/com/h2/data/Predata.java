@@ -1,3 +1,6 @@
+/**
+ * @author 韩百硕
+ */
 package com.h2.data;
 
 import com.h2.constant.Parameters;
@@ -52,7 +55,7 @@ public class Predata
 	}
 
 	/**
-	 * 一个组合是一条string，比如“1 2 3”
+	 * 前边组合生成的字符串，一个组合是一条string，比如“1 2 3”
 	 * 
 	 * @param str
 	 *            一条组合的信息，比如“1 2 3”
@@ -70,7 +73,11 @@ public class Predata
 	}
 
 	/**
-	 * 加载传感器信息
+	 * 加载传感器的信息
+	 * 
+	 * @param count
+	 *            传感器的数量
+	 * @return
 	 */
 	public static Sensor[] loadSensorInfo(int count)
 	{
@@ -84,7 +91,7 @@ public class Predata
 	}
 
 	/**
-	 * 夹在传感器的信息
+	 * 加载传感器的信息
 	 * 
 	 * @param i
 	 *            传感器的编号
@@ -93,10 +100,6 @@ public class Predata
 	private static Sensor initSensor(int i)
 	{
 		Sensor sensor = new Sensor();
-
-		sensor.setSign(false);
-		sensor.setTime("000000");
-		sensor.setFudu(0);
 
 		// 确定传感器两种文件位置
 		sensor.setDataFile(FindFile.getFileName(Parameters.DATAPATH[i]));

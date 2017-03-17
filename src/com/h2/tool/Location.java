@@ -1,3 +1,6 @@
+/**
+ * @author 韩百硕
+ */
 package com.h2.tool;
 
 import java.util.ArrayList;
@@ -18,8 +21,6 @@ public class Location
 	 */
 	public static Sensor getLocation(int count, Sensor[] Token)
 	{
-		Sensor sensor = new Sensor();
-
 		String[] arr = Predata.toArray(count, Token);// 从这里边挑选传感器组,arr里边是激发的传感器编号
 		List<String> arrList = Tools.combine(arr, Parameters.RULENum);// arr是激发的传感器组,5是一个固定值
 
@@ -29,8 +30,8 @@ public class Location
 		{
 			sensors[i] = getOneSensor(arrList.get(i), Token);
 		}
-		sensor = getAveSensor(sensors);
-		return sensor;
+		return getAveSensor(sensors);
+
 	}
 
 	/**

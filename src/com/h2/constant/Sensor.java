@@ -1,3 +1,7 @@
+/**
+ * @author 韩百硕
+ * 给传感器创建一个类
+ */
 package com.h2.constant;
 
 public class Sensor
@@ -5,7 +9,7 @@ public class Sensor
 	public Sensor()
 	{
 		this.sign = false;
-		this.time = "000000";
+		this.time = "000000000000";
 		this.fudu = 0;
 
 		this.Altitude = 0;
@@ -40,7 +44,14 @@ public class Sensor
 
 	public void setTime(String time)
 	{
-		this.time = time;
+		if (time.length() == 12)
+		{
+			this.time = time;
+		} else
+		{
+			System.out.println("激发时间赋值不正确！");
+		}
+
 	}
 
 	public double getLongtitude()

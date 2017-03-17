@@ -1,3 +1,7 @@
+/**
+ * @author 韩百硕
+ * 确定传感器激发以及组合的工具类
+ */
 package com.h2.tool;
 
 import java.io.BufferedReader;
@@ -5,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,19 +21,18 @@ public class Tools
 	/**
 	 * 确定一个传感器在60ms内是否被激发
 	 * 
-	 * @param path
-	 *            文件位置
+	 * @param sensor
+	 *            传感器
 	 * @param number
-	 *            第几次读取文件，定位读取位置
-	 * @param count
-	 *            第几次循环，一次循环读取10s的数据
+	 *            时间窗标识
 	 * @return
 	 */
-	public static boolean getToken(String path, int number, long count, Sensor sensor)
+	public static boolean getToken(Sensor sensor, int number)
 	{
-		File file = new File(path);// 定义文件的位置
-		String s = null;
-		int max = -1;
+		File file = new File(sensor.getDataFile());// 定义文件的位置
+		String s = null;// 存储中间值
+		int max = -1;// 存储最大振幅
+		Vector<Integer> container = null;// 存储当前时窗的数据
 
 		int countLong = Parameters.N1;
 		int countShort = Parameters.N2;
@@ -36,14 +40,14 @@ public class Tools
 		long sumLong = 0;
 		long sumShort = 0;
 
-		long aveLong = 0;
-		long aveShort = 0;
+		double aveLong = 0;
+		double aveShort = 0;
 
-		long lineNumber = number * Parameters.N + count * Parameters.WINDOWNUMBER * Parameters.N;
+		long lineNumber = number * Parameters.N;
 
 		try
 		{
-			BufferedReader br = new BufferedReader(new FileReader(file));// 构造一个BufferedReader类来读取文件
+			BufferedReader br = new BufferedReader(new FileReader(file));
 			while (lineNumber > 0 && ((s = br.readLine()) != null))
 			{
 				lineNumber--;
@@ -60,7 +64,7 @@ public class Tools
 				sumLong += Integer.parseInt(str[0]);
 				countLong--;
 			}
-			aveLong = sumLong / Parameters.N1;
+			aveLong = (double) sumLong / Parameters.N1;
 
 			while (countShort > 0 && ((s = br.readLine()) != null))
 			{
@@ -72,15 +76,15 @@ public class Tools
 				sumShort += Integer.parseInt(str[0]);
 				countShort--;
 			}
-			aveShort = sumShort / Parameters.N2;
+			aveShort = (double) sumShort / Parameters.N2;
 
 			br.close();
 		} catch (Exception e)
 		{
-			e.printStackTrace();
+			System.out.println("读取数据文件" + sensor.getDataFile() + "失败！");
 		}
 		sensor.setFudu(max);
-		return (double) aveShort / (double) aveLong >= 1.4 ? true : false;
+		return (aveShort / aveLong) >= 1.4 ? true : false;
 	}
 
 	/**
@@ -173,23 +177,5 @@ public class Tools
 			count = 0;
 		}
 		return list;
-
-	}
-
-	/**
-	 * 激发时间是long类型(hhmmss) 转换为时分秒 。LinearAlgebra类中使用
-	 * 
-	 * @param ti
-	 * @return
-	 */
-	public static int[] getTime(long ti)
-	{
-		int[] time = { 0, 0, 0 };// 时分秒
-
-		time[0] = (int) (ti / 10000);
-		time[1] = (int) ((ti % 10000) / 100);
-		time[2] = (int) (ti % 100);
-
-		return time;
 	}
 }

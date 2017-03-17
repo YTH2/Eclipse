@@ -1,3 +1,8 @@
+/**
+ * @author 韩百硕
+ * 
+ * 获取传感器的数据文件地址
+ */
 package com.h2.tool;
 
 import java.io.File;

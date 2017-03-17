@@ -1,3 +1,6 @@
+/**
+ * @author 韩百硕
+ */
 package com.h2.magnitude;
 
 import java.io.File;
@@ -40,7 +43,7 @@ public class Earth
 		}
 		try
 		{
-			writer = new FileWriter(new File(Parameters.EARTHClassFILE), true);
+			writer = new FileWriter(new File(Parameters.MINEEARTHQUAKEFILE), true);
 			writer.write(String.valueOf(earthclass / count) + "\n");
 		} catch (IOException e)
 		{
