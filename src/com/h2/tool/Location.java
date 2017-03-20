@@ -78,13 +78,15 @@ public class Location
 				Latitude += sen.getLatitude();
 
 			}
-			sensor.setAltitude(Altitude / sensorCount);
-			sensor.setLongtitude(Longtitude / sensorCount);
-			sensor.setLatitude(Latitude / sensorCount);
+			sensor.setAltitude((double) Math.round((Altitude / sensorCount) * 100) / 100);
+			sensor.setLongtitude((double) Math.round((Longtitude / sensorCount) * 10000) / 10000);
+			sensor.setLatitude((double) Math.round((Latitude / sensorCount) * 10000) / 10000);
 
 		} else
 		{
-			sensor = sensors[0];
+			sensor.setAltitude((double) Math.round(sensors[0].getAltitude() * 100) / 100);
+			sensor.setLongtitude((double) Math.round(sensors[0].getLongtitude() * 10000) / 10000);
+			sensor.setLatitude((double) Math.round(sensors[0].getLatitude() * 10000) / 10000);
 		}
 		return sensor;
 	}

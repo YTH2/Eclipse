@@ -3,11 +3,6 @@
  */
 package com.h2.magnitude;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
 
 public class Earth
@@ -22,10 +17,9 @@ public class Earth
 	 * @param count
 	 *            激发的传感器的数量
 	 */
-	public static void outputEarthClass(Sensor sensor, Sensor[] sensors, int count)
+	public static double outputEarthClass(Sensor sensor, Sensor[] sensors, int count)
 	{
 		double earthclass = 0;// 震级变量
-		FileWriter writer = null;
 		double[] values = new double[count];
 
 		int j = 0;// 表示多个少震级，然后求平均值
@@ -41,26 +35,9 @@ public class Earth
 		{
 			earthclass += d;
 		}
-		try
-		{
-			writer = new FileWriter(new File(Parameters.MINEEARTHQUAKEFILE), true);
-			writer.write(String.valueOf(earthclass / count) + "\n");
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		} finally
-		{
-			try
-			{
-				if (writer != null)
-				{
-					writer.close();
-				}
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
+
+		return (earthclass / count);
+
 	}
 
 	private static double getOneEarthClass(Sensor s, Sensor s2)

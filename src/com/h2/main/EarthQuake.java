@@ -36,9 +36,8 @@ public class EarthQuake
 				Operation.saveData(Token);
 				// 计算震源的位置
 				Sensor location = Location.getLocation(count, Token);
-				// TODO 计算震级
-				Earth.outputEarthClass(location, Token, count);
-				double earthquake = 0.0;
+				// 计算震级
+				double earthquake = Earth.outputEarthClass(location, Token, count);
 				// 输出震源的位置
 				Operation.outputData(Parameters.MINEEARTHQUAKEFILE, location, earthquake);
 			}
