@@ -20,6 +20,8 @@ public class Tools
 {
 	/**
 	 * 确定一个传感器在60ms内是否被激发
+	 * 思想：将一个时窗内的数据(600条数据)全部读取到vector中，
+	 * 并在读取的时候判断是否有数据超出阈值，跟据读取的结果给channel赋值。
 	 * 
 	 * @param sensor
 	 *            传感器
@@ -30,12 +32,16 @@ public class Tools
 	public static boolean getToken(Sensor sensor, int number)
 	{
 		File file = new File(sensor.getDataFile());// 定义文件的位置
-		String s = null;// 存储中间值
-		int max = -1;// 存储最大振幅
-		Vector<Integer> container = null;// 存储当前时窗的数据
 
-		int countLong = Parameters.N1;
-		int countShort = Parameters.N2;
+		String s = null;// 存储中间临时值,读取数据文件中的一条数据并保存在s中。
+		int max = -1;// 存储最大振幅
+		int[] iStr = new int[6]; // 存储记录切割值，因为后边用到分割s的值
+		boolean channel = false;// 确定读取那三列数据，f表示读取345列，如果为t则读取123列
+		int inte = -1;// 存储与最大幅度相比的值
+
+		Vector<String> container = new Vector<String>();// 存储当前时窗的数据
+
+		int count = Parameters.N;
 
 		long sumLong = 0;
 		long sumShort = 0;
@@ -43,38 +49,80 @@ public class Tools
 		double aveLong = 0;
 		double aveShort = 0;
 
-		long lineNumber = number * Parameters.N;
+		long lineNumber = number * Parameters.N;// 确定跳过的记录数，记录数取决于时窗
 
 		try
 		{
+			// 跳过前边时窗内的数据
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			while (lineNumber > 0 && ((s = br.readLine()) != null))
 			{
 				lineNumber--;
 			}
 
-			while (countLong > 0 && ((s = br.readLine()) != null))
+			container.clear();
+			// 读取本时窗的数据
+			while (count > 0 && ((s = br.readLine()) != null))
 			{
 				String[] str = StringUtils.split(s, " ");
-				// TODO 需要确定应该读取哪列信息
-				if (Integer.parseInt(str[0]) > max)
+				for (int i = 3; i < 6; i++)// 共7列数据，最后一列为时间，程序中用不到，只用前边的6列
 				{
-					max = Integer.parseInt(str[0]);
+					iStr[i] = Integer.parseInt(str[i]);
 				}
-				sumLong += Integer.parseInt(str[0]);
-				countLong--;
+
+				if (!TestThreshold(iStr[3]) && !TestThreshold(iStr[4]) && !TestThreshold(iStr[5]))
+				{
+					container.add(s);
+				} else
+				{
+					channel = true;
+					container.add(s);
+				}
+				count--;
+			}
+			if (channel)// 读取前三列
+			{
+				for (int i = 0; i < Parameters.N1; i++)
+				{
+					String[] str = StringUtils.split(container.get(i), " ");
+					inte = (Math.abs(Integer.parseInt(str[0])) + Math.abs(Integer.parseInt(str[1]))
+							+ Math.abs(Integer.parseInt(str[2]))) / 3;
+					max = (max > inte) ? max : inte;
+					sumLong += inte;
+				}
+			} else
+			{
+				for (int i = 0; i < Parameters.N1; i++)
+				{
+					String[] str = StringUtils.split(container.get(i), " ");
+					inte = (Math.abs(Integer.parseInt(str[3])) + Math.abs(Integer.parseInt(str[4]))
+							+ Math.abs(Integer.parseInt(str[5]))) / 3;
+					max = (max > inte) ? max : inte;
+					sumLong += inte;
+				}
 			}
 			aveLong = (double) sumLong / Parameters.N1;
 
-			while (countShort > 0 && ((s = br.readLine()) != null))
+			if (channel)// 读取前三列
 			{
-				String[] str = StringUtils.split(s, " ");
-				if (Integer.parseInt(str[0]) > max)
+				for (int i = Parameters.N1; i < Parameters.N; i++)
 				{
-					max = Integer.parseInt(str[0]);
+					String[] str = StringUtils.split(container.get(i), " ");
+					inte = (Math.abs(Integer.parseInt(str[0])) + Math.abs(Integer.parseInt(str[1]))
+							+ Math.abs(Integer.parseInt(str[2]))) / 3;
+					max = (max > inte) ? max : inte;
+					sumShort += inte;
 				}
-				sumShort += Integer.parseInt(str[0]);
-				countShort--;
+			} else
+			{
+				for (int i = Parameters.N1; i < Parameters.N; i++)
+				{
+					String[] str = StringUtils.split(container.get(i), " ");
+					inte = (Math.abs(Integer.parseInt(str[3])) + Math.abs(Integer.parseInt(str[4]))
+							+ Math.abs(Integer.parseInt(str[5]))) / 3;
+					max = (max > inte) ? max : inte;
+					sumShort += inte;
+				}
 			}
 			aveShort = (double) sumShort / Parameters.N2;
 
@@ -177,5 +225,24 @@ public class Tools
 			count = 0;
 		}
 		return list;
+	}
+
+	/**
+	 * 计算通道转换
+	 * 
+	 * @param num
+	 *            传进来的值
+	 * @return 通道是否转换
+	 */
+	private static boolean TestThreshold(int num)
+	{
+		if (num > Parameters.HEAD || num < Parameters.TAIL)
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+
 	}
 }

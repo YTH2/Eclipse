@@ -17,7 +17,6 @@ public class EarthQuake
 	{
 		// 加载各个传感器的信息
 		Sensor[] Token = Predata.loadSensorInfo(Parameters.SensorNum);
-		// TODO 每隔10s计算一次
 		while (true)
 		{
 			/**
@@ -37,7 +36,7 @@ public class EarthQuake
 				Operation.saveData(Token);
 				// 计算震源的位置
 				Sensor location = Location.getLocation(count, Token);
-				// 计算震级
+				// TODO 计算震级
 				Earth.outputEarthClass(location, Token, count);
 				double earthquake = 0.0;
 				// 输出震源的位置
@@ -46,9 +45,16 @@ public class EarthQuake
 			// 重置token
 			for (Sensor sensor : Token)
 			{
-				sensor.setFudu(0);
+				sensor.setFudu(-1);
 				sensor.setSign(false);
 				sensor.setTime("000000000000");
+			}
+			try// 每隔10s计算一次
+			{
+				Thread.sleep(500);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}
