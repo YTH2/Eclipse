@@ -8,11 +8,15 @@ public class Parameters
 {
 	private static final int LONGTIMEWINDOW = 50;// 单位是毫秒
 	private static final int SHORTTIMEWINDOW = 10;// 单位是毫秒
-	private static final int FREQUENCY = 10000;// 单位hz/s
+	public static final int FREQUENCY = 10000;// 单位hz/s
 	private static final int TEMP = 1000;// 单位转换
 	// head和tail是转换通道时的阈值
 	public static final int HEAD = 32767;
 	public static final int TAIL = -32768;
+	/**
+	 * 跳的记录条数，用在Save5Data文件中,跳过前5秒数据
+	 */
+	public static final int COUNT5sRECORD = 5*FREQUENCY;
 	/**
 	 * 结果数据文件中的记录数
 	 */
@@ -57,6 +61,11 @@ public class Parameters
 	 */
 	public static final String[] EARTHDATAFILE = { "D://Data//Sensor1//Backup.txt", "D://Data//Sensor2//Backup.txt",
 			"D://Data//Sensor3//Backup.txt", "D://Data//Sensor4//Backup.txt", "D://Data//Sensor5//Backup.txt" };// 不同的文件存储不同传感器的信息
+	/**
+	 * 保存虚窗口的数据，5s内的数据
+	 */
+	public static final String[] VIRTUALWINDOW = { "D://Data//Sensor1//virtual.txt", "D://Data//Sensor2//virtual.txt",
+			"D://Data//Sensor3//virtual.txt", "D://Data//Sensor4//virtual.txt", "D://Data//Sensor5//virtual.txt" };
 	/**
 	 * 输出计算结果 时间-震级-定位
 	 */

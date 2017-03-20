@@ -9,6 +9,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Vector;
 
 import org.apache.commons.lang3.StringUtils;
@@ -128,6 +132,7 @@ public class Operation
 	 * 将激发传感器的数据进行存储
 	 * 
 	 * @param sensors
+	 *            所有的传感器
 	 */
 	public static void saveData(Sensor[] sensors)
 	{
@@ -141,7 +146,7 @@ public class Operation
 	}
 
 	/**
-	 * 将本块数据输出
+	 * 将前后5秒的数据输出
 	 * 
 	 * @param sensor
 	 *            传感器的信息
@@ -175,9 +180,72 @@ public class Operation
 			writer.write("传感器" + i + "的激发时间:    " + sensor.getTime() + "\n");// 传感器的激发时间
 			writer.write("传感器" + i + "的最大振幅:    " + sensor.getFudu() + "\n");// 最大振幅
 			writer.write("---------------------------------------------------------\n");
-			while ((s = reader.readLine()) != null)
+
+			// 1：获取文件的时间
+			int begin = sensor.getDataFile().lastIndexOf("/");
+			int end = sensor.getDataFile().lastIndexOf(".");
+			String dataFileName = sensor.getDataFile().substring(begin + 1, end);
+
+			Calendar calFile = Calendar.getInstance();
+			DateFormat df = new SimpleDateFormat("yyMMddhhmmss");
+			try
 			{
-				writer.write(s + "\n");
+				calFile.setTime(df.parse(dataFileName));
+			} catch (ParseException e)
+			{
+				System.out.println("激发时间转换错误！");
+				e.printStackTrace();
+			}
+			// 2：获取激发时间
+			Calendar calSign = Calendar.getInstance();
+			try
+			{
+				calSign.setTime(df.parse(sensor.getTime()));
+			} catch (ParseException e)
+			{
+				System.out.println("激发时间转换错误！");
+				e.printStackTrace();
+			}
+			// 3：计算两者的差值
+			int diff = (calSign.get(Calendar.MINUTE) - calFile.get(Calendar.MINUTE)) * 60
+					+ (calSign.get(Calendar.SECOND) - calFile.get(Calendar.SECOND));
+			// 4：存储数据
+			if (diff < 5)// 需要从虚窗口中读取数据
+			{
+				// 保存前(diff+5)秒内的数据
+				int count1 = (diff + 5) * Parameters.FREQUENCY;
+				while (count1 > 0 && (s = reader.readLine()) != null)
+				{
+					writer.write(s + "\n");
+					count1--;
+				}
+				// 跳过虚数据文件的diff秒的数据
+				reader = new BufferedReader(new FileReader(new File(Parameters.VIRTUALWINDOW[i - 1])));
+				int count2 = diff * Parameters.FREQUENCY;
+				while (count2 > 0 && (s = reader.readLine()) != null)
+				{
+					count2--;
+				}
+				// 保存虚数据文件中的后(5-diff)秒的数据
+				int count3 = (5 - diff) * Parameters.FREQUENCY;
+				while (count3 > 0 && (s = reader.readLine()) != null)
+				{
+					writer.write(s + "\n");
+					count3--;
+				}
+			} else
+			{
+				// 跳过前边(diff-5)秒的数据
+				int count = (diff - 5) * Parameters.FREQUENCY;
+				while (count > 0 && (s = reader.readLine()) != null)
+				{
+					count--;
+				}
+				// 后边的全部保存
+				while ((s = reader.readLine()) != null)
+				{
+					writer.write(s + "\n");
+				}
 			}
 
 		} catch (IOException e)
