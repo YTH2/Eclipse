@@ -16,7 +16,7 @@ public class Parameters
 	/**
 	 * 跳的记录条数，用在Save5Data文件中,跳过前5秒数据
 	 */
-	public static final int COUNT5sRECORD = 5*FREQUENCY;
+	public static final int COUNT5sRECORD = 5 * FREQUENCY;
 	/**
 	 * 结果数据文件中的记录数
 	 */

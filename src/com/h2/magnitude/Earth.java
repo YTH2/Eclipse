@@ -16,11 +16,12 @@ public class Earth
 	 *            部署的传感器的数组
 	 * @param count
 	 *            激发的传感器的数量
+	 * @return 最终的震级
 	 */
 	public static double outputEarthClass(Sensor sensor, Sensor[] sensors, int count)
 	{
 		double earthclass = 0;// 震级变量
-		double[] values = new double[count];
+		double[] values = new double[count];// 存储两个传感器计算出来的震级
 
 		int j = 0;// 表示多个少震级，然后求平均值
 		for (int i = 0; i < sensors.length; i++)
@@ -35,34 +36,55 @@ public class Earth
 		{
 			earthclass += d;
 		}
-
-		return (earthclass / count);
-
+		return (double) Math.round((earthclass / count) * 100) / 100.0;// 震级保留两位小数
 	}
 
+	/**
+	 * 通过两个传感器计算震级
+	 * 
+	 * @param s
+	 *            震源传感器
+	 * @param s2
+	 *            部署的并被激发的传感器
+	 * @return 震级
+	 */
 	private static double getOneEarthClass(Sensor s, Sensor s2)
 	{
 		double distance = getDistance(s, s2);
-		if (distance < 0.5 || distance > 5)
+		if (distance < 0.0 || distance > 5.0)
 		{
 			return 0;
 		}
-		return Math.log((double) s2.getFudu()) + getR(distance);
+		return Math.log(s2.getFudu()) + getR(distance);
 	}
 
+	/**
+	 * 计算两个坐标之间的距离，通过经纬度计算直线距离
+	 * 
+	 * @param s1
+	 *            震源传感器
+	 * @param s2
+	 *            部署的并被激发的传感器
+	 * @return 距离
+	 */
 	private static double getDistance(Sensor s1, Sensor s2)
 	{
 		// http://blog.163.com/yuck_deng/blog/static/19501514720118132513641/
 
-		double radLat1 = rad(s1.getLatitude());
-		double radLat2 = rad(s2.getLatitude());
+		double radLat1 = rad(s1.getLatitude() / 100);
+		double radLat2 = rad(s2.getLatitude() / 100);
 		double a = radLat1 - radLat2;
-		double b = rad(s1.getLongtitude()) - rad(s2.getLongtitude());
+		double b = rad(s1.getLongtitude() / 100) - rad(s2.getLongtitude() / 100);
 		double s = 2 * Math.asin(Math.sqrt(
 				Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
 		s = s * EARTH_RADIUS;
 		s = Math.round(s * 10000) / 10000;
 		return s / 1000;
+	}
+
+	private static double rad(double d)
+	{
+		return d * Math.PI / 180.0;
 	}
 
 	private static double getR(double d)
@@ -103,16 +125,11 @@ public class Earth
 		{
 			return 1.73;
 		}
-		if (d >= 4.5 && d < 5)
+		if (d >= 4.5 && d <= 5.0)
 		{
 			return 1.8;
 		}
 		return 0;
-	}
-
-	private static double rad(double d)
-	{
-		return d * Math.PI / 180.0;
 	}
 
 	private static final double EARTH_RADIUS = 6378137;
