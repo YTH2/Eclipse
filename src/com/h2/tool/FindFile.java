@@ -9,6 +9,13 @@ import java.io.File;
 
 public class FindFile
 {
+	/**
+	 * 确定传感器数据文件路径名
+	 * 
+	 * @param Path
+	 *            传感器的目录名
+	 * @return 传感器的数据文件的完整路径名
+	 */
 	public static String getFileName(String Path)
 	{
 		File file = new File(Path);

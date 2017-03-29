@@ -26,7 +26,7 @@ public class Tools
 	 *            传感器
 	 * @param number
 	 *            时间窗标识
-	 * @return
+	 * @return 是否被激发
 	 */
 	public static boolean getToken(Sensor sensor, int number)
 	{
@@ -135,7 +135,7 @@ public class Tools
 	 *            所有的激活传感器 M
 	 * @param num
 	 *            选取的传感器 N
-	 * @return
+	 * @return 组合，用string表示
 	 */
 	public static List<String> combine(String[] a, int num)
 	{

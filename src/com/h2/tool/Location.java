@@ -12,6 +12,7 @@ import com.h2.data.Predata;
 public class Location
 {
 	/**
+	 * 获取震源
 	 * 
 	 * @param count
 	 *            激活的传感器数量
@@ -38,7 +39,9 @@ public class Location
 	 * 得到一个组合中震源的位置
 	 * 
 	 * @param str
+	 *            组合
 	 * @param Token
+	 *            总的传感器
 	 * @return
 	 */
 	private static Sensor getOneSensor(String str, Sensor[] Token)
@@ -58,7 +61,8 @@ public class Location
 	 * 计算震源的平均位置
 	 * 
 	 * @param sensors
-	 * @return
+	 *            各个组合计算出来的震源坐标
+	 * @return 平均震源坐标
 	 */
 	private static Sensor getAveSensor(Sensor[] sensors)
 	{

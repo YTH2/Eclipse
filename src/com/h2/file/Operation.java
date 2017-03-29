@@ -23,12 +23,13 @@ import com.h2.constant.Sensor;
 public class Operation
 {
 	/**
-	 * 获取探测器的gps
+	 * 获取传感器的GPS
 	 * 
 	 * @param path
 	 *            GPS文件的完整路径
 	 * @return
 	 * @throws IOException
+	 *             读取文件失败
 	 */
 	public static String getGPS(String path)
 	{
@@ -55,7 +56,7 @@ public class Operation
 	}
 
 	/**
-	 * 输出数据，以追加的方式输出震源信息
+	 * 输出最终结果数据，输出数据之后本次的计算基本完成
 	 * 
 	 * @param path
 	 *            震源数据输出路径
@@ -68,8 +69,11 @@ public class Operation
 	{
 		// 查看输出文件是否存在
 		File fi = new File(path);
+		
 		BufferedReader reader = null;// 先读出数据，然后写入数据，保证有十条数据
 		FileWriter writer = null;
+		FileWriter writer1 = null;// 清空文件
+		
 		Vector<String> record = new Vector<String>();
 
 		try
@@ -100,13 +104,18 @@ public class Operation
 				{
 					record.add(reader.readLine());
 				}
+				//确保文件现在没有数据
+				writer1 = new FileWriter(path);
+				writer1.write(new String(""));
+				writer1.close();
+				
 				writer = new FileWriter(path, true);
 				for (int i = 0; i < Parameters.RECORDNUM - 1; i++)
 				{
 					writer.write(record.get(i));
 				}
 				writer.write(sensor.getTime() + " " + earthquake + " " + sensor.getLongtitude() + " "
-						+ sensor.getLatitude() + " " + sensor.getAltitude());
+						+ sensor.getLatitude() + " " + sensor.getAltitude() + "\n");
 			}
 
 		} catch (IOException e)
@@ -121,6 +130,11 @@ public class Operation
 				{
 					writer.close();
 				}
+				if (reader != null)
+				{
+					reader.close();
+				}
+
 			} catch (IOException e)
 			{
 				e.printStackTrace();
@@ -129,7 +143,7 @@ public class Operation
 	}
 
 	/**
-	 * 将激发传感器的数据进行存储
+	 * 将激发传感器的数据进行存储,激发时间前后5秒的数据
 	 * 
 	 * @param sensors
 	 *            所有的传感器
@@ -140,7 +154,7 @@ public class Operation
 		{
 			if (sensors[i].isSign())
 			{
-				outputEarthData(sensors[i], i + 1);
+				outputEarthData(sensors[i], i + 1);//备份数据
 			}
 		}
 	}
@@ -170,6 +184,7 @@ public class Operation
 		{
 			System.out.println("传感器-" + i + "-激发数据存储失败！");
 		}
+		
 		try
 		{
 			reader = new BufferedReader(new FileReader(new File(sensor.getDataFile())));
@@ -193,7 +208,7 @@ public class Operation
 				calFile.setTime(df.parse(dataFileName));
 			} catch (ParseException e)
 			{
-				System.out.println("激发时间转换错误！");
+				System.out.println("数据文件时间转换错误！");
 				e.printStackTrace();
 			}
 			// 2：获取激发时间
@@ -212,13 +227,6 @@ public class Operation
 			// 4：存储数据
 			if (diff < 5)// 需要从虚窗口中读取数据
 			{
-				// 保存前(diff+5)秒内的数据
-				int count1 = (diff + 5) * Parameters.FREQUENCY;
-				while (count1 > 0 && (s = reader.readLine()) != null)
-				{
-					writer.write(s + "\n");
-					count1--;
-				}
 				// 跳过虚数据文件的diff秒的数据
 				reader = new BufferedReader(new FileReader(new File(Parameters.VIRTUALWINDOW[i - 1])));
 				int count2 = diff * Parameters.FREQUENCY;
@@ -227,12 +235,19 @@ public class Operation
 					count2--;
 				}
 				// 保存虚数据文件中的后(5-diff)秒的数据
-				int count3 = (5 - diff) * Parameters.FREQUENCY;
-				while (count3 > 0 && (s = reader.readLine()) != null)
+				while ((s = reader.readLine()) != null)
 				{
 					writer.write(s + "\n");
-					count3--;
 				}
+				// 保存前(diff+5)秒内的数据
+				reader = new BufferedReader(new FileReader(new File(sensor.getDataFile())));
+				int count1 = (diff + 5) * Parameters.FREQUENCY;
+				while (count1 > 0 && (s = reader.readLine()) != null)
+				{
+					writer.write(s + "\n");
+					count1--;
+				}
+				
 			} else
 			{
 				// 跳过前边(diff-5)秒的数据

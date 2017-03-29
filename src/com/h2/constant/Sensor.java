@@ -19,6 +19,7 @@ public class Sensor
 		this.DataFile = "";
 		this.GPSFile = "";
 		this.OutPutfile = "";
+		//用于震级的计算
 		Max1 = 0;
 		Max2 = 0;
 		Max4 = 0;
@@ -48,6 +49,12 @@ public class Sensor
 		return time;
 	}
 
+	/**
+	 * 设置传感器的激发时间
+	 * 
+	 * @param time
+	 *            激发的时间，必须是12位长
+	 */
 	public void setTime(String time)
 	{
 		if (time.length() == 12)
@@ -190,24 +197,66 @@ public class Sensor
 		Be = be;
 	}
 
-	private boolean sign;// 标识是否被激发
-	private String time;// 激发的时间
-	private double fudu;// 最大振幅
-
-	private double Longtitude;// 经线
-	private double Latitude;// 纬线
-	private double Altitude;// 海拔
-
-	private String GPSFile;// GPS文件位置
-	private String DataFile;// 数据文件位置
-	private String OutPutfile;// 数据输出位置
+	/**
+	 * 标识是否被激发
+	 */
+	private boolean sign;//
+	/**
+	 * 激发的时间，时间12位格式为yyMMddhhmmss
+	 */
+	private String time;//
+	/**
+	 * 传感器最大振幅，用于震级计算
+	 */
+	private double fudu;//
+	/**
+	 * 经线
+	 */
+	private double Longtitude;//
+	/**
+	 * 纬线
+	 */
+	private double Latitude;//
+	/**
+	 * 海拔
+	 */
+	private double Altitude;//
+	/**
+	 * GPS文件位置
+	 */
+	private String GPSFile;//
+	/**
+	 * 数据文件位置
+	 */
+	private String DataFile;//
+	/**
+	 * 数据输出位置
+	 */
+	private String OutPutfile;//
 
 	// 最大震级公式修改后增加的字段
-	private double Max1;// 通道1的最大值
-	private double Max2;// 通道2的最大值
-	private double Max4;// 通道4的最大值
-	private double Max5;// 通道5的最大值
-	private double Bn;// An中的记录数
-	private double Be;// Ae中的记录数
-
+	/**
+	 * 通道1的最大值
+	 */
+	private double Max1;
+	/**
+	 * 通道2的最大值
+	 */
+	private double Max2;
+	/**
+	 * 通道4的最大值
+	 */
+	private double Max4;
+	/**
+	 * 通道5的最大值
+	 */
+	private double Max5;
+	/**
+	 * An中的记录数，用于震级计算中获取时间
+	 */
+	private double Bn;
+	/**
+	 * Ae中的记录数，用于震级计算中获取时间
+	 */
+	private double Be;
 }

@@ -17,7 +17,7 @@ public class Predata
 	 *            激发的传感器的数量
 	 * @param arr
 	 *            总的传感器的数组
-	 * @return 激发传感器的编号
+	 * @return 激发传感器的编号string数组
 	 */
 	public static String[] toArray(int num, Sensor[] arr)
 	{
@@ -55,11 +55,11 @@ public class Predata
 	}
 
 	/**
-	 * 前边组合生成的字符串，一个组合是一条string，比如“1 2 3”
+	 * 前边组合生成的字符串，一个组合是一条string，比如“1 2 3”，用于组合计算后的使用
 	 * 
 	 * @param str
 	 *            一条组合的信息，比如“1 2 3”
-	 * @return
+	 * @return int数组 [1,2,3]
 	 */
 	public static int[] getSensorsID(String str)
 	{
@@ -73,11 +73,11 @@ public class Predata
 	}
 
 	/**
-	 * 加载传感器的信息
+	 * 加载全部传感器的信息
 	 * 
 	 * @param count
-	 *            传感器的数量
-	 * @return
+	 *            传感器的总数量
+	 * @return 初始化好的传感器，每个传感器都关联了数据文件，gps文件
 	 */
 	public static Sensor[] loadSensorInfo(int count)
 	{
@@ -91,11 +91,11 @@ public class Predata
 	}
 
 	/**
-	 * 加载传感器的信息
+	 * 加载一个传感器的信息
 	 * 
 	 * @param i
 	 *            传感器的编号
-	 * @return
+	 * @return 一个初始化好的传感器
 	 */
 	private static Sensor initSensor(int i)
 	{

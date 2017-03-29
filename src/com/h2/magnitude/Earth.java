@@ -8,7 +8,7 @@ import com.h2.constant.Sensor;
 public class Earth
 {
 	/**
-	 * 输出震级
+	 * 计算得到震级
 	 * 
 	 * @param sensor
 	 *            上一步中求得的震源的坐标
@@ -18,12 +18,12 @@ public class Earth
 	 *            激发的传感器的数量
 	 * @return 最终的震级
 	 */
-	public static double outputEarthClass(Sensor sensor, Sensor[] sensors, int count)
+	public static double earthClass(Sensor sensor, Sensor[] sensors, int count)
 	{
 		double earthclass = 0;// 震级变量
 		double[] values = new double[count];// 存储两个传感器计算出来的震级
 
-		int j = 0;// 表示多个少震级，然后求平均值
+		int j = 0;// 表示多少个震级，然后求平均值
 		for (int i = 0; i < sensors.length; i++)
 		{
 			if (sensors[i].isSign())

@@ -18,7 +18,7 @@ public class LinearAlgebra
 	 * 通过五个被激发传感器计算震源坐标
 	 * 
 	 * @param sensors
-	 * @return
+	 * @return 拥有震源的传感器变量
 	 */
 	public static Sensor getXYZ(List<Sensor> sensors)
 	{

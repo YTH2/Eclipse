@@ -17,10 +17,13 @@ public class EarthQuake
 {
 	public static void main(String[] args)
 	{
+		// 用于时间的延迟，若是进行了震级震源的计算，后边延迟时间就少点，若是没有计算则延迟时间多点
+		boolean flag;
 		// 加载各个传感器的信息
 		Sensor[] Token = Predata.loadSensorInfo(Parameters.SensorNum);
 		while (true)
 		{
+			flag = false;
 			// 第二步：读取文件中的数据 第三步：计算平均振幅
 			Token = Event.motivate(Token);// 确定哪些传感器被激发
 			// 第四步：激发出现在四个以上的传感器中
@@ -28,13 +31,15 @@ public class EarthQuake
 			// 第六步：定位震源,sensor里边存储有震源信息
 			if (count > 4)
 			{
+				flag = true;
+				Token=MaxFudu.getMaxFudu(Token);
 				// 备份传感器数据
 				Operation.saveData(Token);
 				// 计算震源的位置
 				Sensor location = Location.getLocation(count, Token);
 				// 计算激发传感器的最大振幅 MaxFudu.getMaxFudu(Token);
 				// 计算震级
-				double earthquake = Earth.outputEarthClass(location, MaxFudu.getMaxFudu(Token), count);
+				double earthquake = Earth.earthClass(location, Token, count);
 				// 输出震源的位置
 				Operation.outputData(Parameters.MINEEARTHQUAKEFILE, location, earthquake);
 			}
@@ -47,12 +52,24 @@ public class EarthQuake
 				sensor.setSign(false);
 				sensor.setTime("000000000000");
 			}
-			try// TODO 间隔时间需要修改
+			if (flag)// 延迟时间要少
 			{
-				Thread.sleep(10000);// 每隔10s计算一次，此处需要修改，因为程序处理时间不知道
-			} catch (InterruptedException e)
+				try
+				{
+					Thread.sleep(10000);// 每隔10s计算一次，此处需要修改，因为程序处理时间不知道
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			} else// 没有进行震源震级的计算延迟时间要大点
 			{
-				e.printStackTrace();
+				try
+				{
+					Thread.sleep(10000);// 每隔10s计算一次，此处需要修改，因为程序处理时间不知道
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}

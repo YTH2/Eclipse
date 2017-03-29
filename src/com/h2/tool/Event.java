@@ -16,11 +16,11 @@ public class Event
 {
 
 	/**
-	 * 在这10s内激发的传感器
+	 * 在这10s内激发的传感器,并设置激发传感器的标识和激发时间
 	 * 
 	 * @param sensors
 	 *            所有的传感器
-	 * @return
+	 * @return 总的传感器，激发传感器设置了激发标识和激发时间
 	 */
 	public static Sensor[] motivate(Sensor[] sensors)
 	{
@@ -49,7 +49,7 @@ public class Event
 	 *            文件名中有时间
 	 * @param i
 	 *            第几个60ms
-	 * @return
+	 * @return 传感器的激发时间
 	 */
 	private static String getTime(String dataFileName, int i)
 	{
@@ -80,7 +80,7 @@ public class Event
 	 * 确保数据是两位长
 	 * 
 	 * @param time
-	 * @return
+	 * @return 两位表示的时间字段
 	 */
 	private static String handleTime(int time)
 	{
