@@ -3,7 +3,11 @@
  */
 package com.h2.tool;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
@@ -71,9 +75,13 @@ public class Location
 
 		if (sensorCount != 1)
 		{
+			Calendar cal = Calendar.getInstance();
+			DateFormat df = new SimpleDateFormat("yyMMddhhmmss");
+
 			double Altitude = 0;
 			double Longtitude = 0;
 			double Latitude = 0;
+			long time = 0;
 
 			for (Sensor sen : sensors)
 			{
@@ -81,17 +89,51 @@ public class Location
 				Longtitude += sen.getLongtitude();
 				Latitude += sen.getLatitude();
 
+				try
+				{
+					cal.setTime(df.parse(sen.getTime()));
+				} catch (ParseException e)
+				{
+					System.out.println("Location类中" + "getAveSensor函数日期转化失败！");
+				}
+				time += cal.getTimeInMillis();
 			}
 			sensor.setAltitude((double) Math.round((Altitude / sensorCount) * 100) / 100);
 			sensor.setLongtitude((double) Math.round((Longtitude / sensorCount) * 10000) / 10000);
 			sensor.setLatitude((double) Math.round((Latitude / sensorCount) * 10000) / 10000);
+			cal.setTimeInMillis(time / sensorCount);
+			sensor.setTime(timeformat(cal));
 
 		} else
 		{
-			sensor.setAltitude((double) Math.round(sensors[0].getAltitude() * 100) / 100);
-			sensor.setLongtitude((double) Math.round(sensors[0].getLongtitude() * 10000) / 10000);
-			sensor.setLatitude((double) Math.round(sensors[0].getLatitude() * 10000) / 10000);
+			sensor = sensors[0];
 		}
 		return sensor;
+	}
+
+	private static String timeformat(Calendar cal)
+	{
+		int y = cal.get(Calendar.YEAR) % 100;
+		int M = cal.get(Calendar.MONTH) + 1;
+		int d = cal.get(Calendar.DAY_OF_MONTH);
+		int h = cal.get(Calendar.HOUR_OF_DAY);
+		int m = cal.get(Calendar.MINUTE);
+		int s = cal.get(Calendar.SECOND);
+		return handleTime(y) + handleTime(M) + handleTime(d) + handleTime(h) + handleTime(m) + handleTime(s);
+	}
+
+	/**
+	 * 确保数据是两位长
+	 * 
+	 * @param time
+	 * @return 两位表示的时间字段
+	 */
+	private static String handleTime(int time)
+	{
+		if ((time / 10) == 0)
+		{
+			return "0" + time;
+		}
+		return String.valueOf(time);
 	}
 }

@@ -19,10 +19,12 @@ public class EarthQuake
 	{
 		// 用于时间的延迟，若是进行了震级震源的计算，后边延迟时间就少点，若是没有计算则延迟时间多点
 		boolean flag;
-		// 加载各个传感器的信息
-		Sensor[] Token = Predata.loadSensorInfo(Parameters.SensorNum);
+
 		while (true)
 		{
+			long startTime = System.currentTimeMillis();
+			// 加载各个传感器的信息
+			Sensor[] Token = Predata.loadSensorInfo(Parameters.SensorNum);
 			flag = false;
 			// 第二步：读取文件中的数据 第三步：计算平均振幅
 			Token = Event.motivate(Token);// 确定哪些传感器被激发
@@ -32,7 +34,7 @@ public class EarthQuake
 			if (count > 4)
 			{
 				flag = true;
-				Token=MaxFudu.getMaxFudu(Token);
+				Token = MaxFudu.getMaxFudu(Token);
 				// 备份传感器数据
 				Operation.saveData(Token);
 				// 计算震源的位置
@@ -45,18 +47,13 @@ public class EarthQuake
 			}
 			// 保存5秒的数据
 			Save5Data.saveData(Token);
-			// 重置token
-			for (Sensor sensor : Token)
-			{
-				sensor.setFudu(-1);
-				sensor.setSign(false);
-				sensor.setTime("000000000000");
-			}
+			long endTime = System.currentTimeMillis();
+			System.out.println((endTime - startTime) / 1000);
 			if (flag)// 延迟时间要少
 			{
 				try
 				{
-					Thread.sleep(10000);// 每隔10s计算一次，此处需要修改，因为程序处理时间不知道
+					Thread.sleep(5000);// 每隔10s计算一次，此处需要修改，因为程序处理时间不知道
 				} catch (InterruptedException e)
 				{
 					e.printStackTrace();
@@ -65,7 +62,7 @@ public class EarthQuake
 			{
 				try
 				{
-					Thread.sleep(10000);// 每隔10s计算一次，此处需要修改，因为程序处理时间不知道
+					Thread.sleep(5000);// 每隔10s计算一次，此处需要修改，因为程序处理时间不知道
 				} catch (InterruptedException e)
 				{
 					e.printStackTrace();

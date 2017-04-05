@@ -112,7 +112,7 @@ public class Operation
 				writer = new FileWriter(path, true);
 				for (int i = 0; i < Parameters.RECORDNUM - 1; i++)
 				{
-					writer.write(record.get(i));
+					writer.write(record.get(i)+"\n");
 				}
 				writer.write(sensor.getTime() + " " + earthquake + " " + sensor.getLongtitude() + " "
 						+ sensor.getLatitude() + " " + sensor.getAltitude() + "\n");
