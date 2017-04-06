@@ -69,7 +69,7 @@ public class Earth
 	 */
 	private static double getDistance(Sensor s1, Sensor s2)
 	{
-		// http://blog.163.com/yuck_deng/blog/static/19501514720118132513641/
+		// http://www.jianshu.com/p/18efaabab98e
 
 		double radLat1 = rad(s1.getLatitude() / 100);
 		double radLat2 = rad(s2.getLatitude() / 100);
@@ -78,8 +78,8 @@ public class Earth
 		double s = 2 * Math.asin(Math.sqrt(
 				Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
 		s = s * EARTH_RADIUS;
-		s = Math.round(s * 10000) / 10000;
 		return s / 1000;
+
 	}
 
 	private static double rad(double d)
@@ -133,4 +133,5 @@ public class Earth
 	}
 
 	private static final double EARTH_RADIUS = 6378137;
+	// private final static double R = 6371229;
 }

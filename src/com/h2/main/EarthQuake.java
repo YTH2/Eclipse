@@ -19,9 +19,10 @@ public class EarthQuake
 	{
 		// 用于时间的延迟，若是进行了震级震源的计算，后边延迟时间就少点，若是没有计算则延迟时间多点
 		boolean flag;
-
+		
 		while (true)
 		{
+
 			long startTime = System.currentTimeMillis();
 			// 加载各个传感器的信息
 			Sensor[] Token = Predata.loadSensorInfo(Parameters.SensorNum);

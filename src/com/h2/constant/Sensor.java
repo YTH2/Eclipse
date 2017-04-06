@@ -20,12 +20,12 @@ public class Sensor
 		this.GPSFile = "";
 		this.OutPutfile = "";
 		//用于震级的计算
-		Max1 = 0;
-		Max2 = 0;
-		Max4 = 0;
-		Max5 = 0;
-		Bn = 0;
-		Be = 0;
+		Max1 = 0;//通道1的最大值
+		Max2 = 0;//通道2的最大值
+		Max4 = 0;//通道4的最大值
+		Max5 = 0;//通道5的最大值
+		Bn = 0;//An中两个记录间的记录数，用于确定时间
+		Be = 0;//Ae中两个记录间的记录数，用于确定时间
 	}
 
 	@Override

@@ -83,8 +83,8 @@ public class Tools
 				for (int i = 0; i < Parameters.N1; i++)
 				{
 					String[] str = StringUtils.split(container.get(i), " ");
-					inte = (Math.abs(Integer.parseInt(str[0])) + Math.abs(Integer.parseInt(str[1]))
-							+ Math.abs(Integer.parseInt(str[2]))) / 3;
+					inte = (int)Math.hypot(Math.hypot(Integer.parseInt(str[0]), Integer.parseInt(str[1])),
+							Integer.parseInt(str[2]));
 					sumLong += inte;
 				}
 			} else
@@ -92,8 +92,9 @@ public class Tools
 				for (int i = 0; i < Parameters.N1; i++)
 				{
 					String[] str = StringUtils.split(container.get(i), " ");
-					inte = (Math.abs(Integer.parseInt(str[3])) + Math.abs(Integer.parseInt(str[4]))
-							+ Math.abs(Integer.parseInt(str[5]))) / 3;
+					inte = (int)Math.hypot(Math.hypot(Integer.parseInt(str[3]), Integer.parseInt(str[4])),
+							Integer.parseInt(str[5]));
+
 					sumLong += inte;
 				}
 			}
@@ -104,8 +105,8 @@ public class Tools
 				for (int i = Parameters.N1; i < Parameters.N; i++)
 				{
 					String[] str = StringUtils.split(container.get(i), " ");
-					inte = (Math.abs(Integer.parseInt(str[0])) + Math.abs(Integer.parseInt(str[1]))
-							+ Math.abs(Integer.parseInt(str[2]))) / 3;
+					inte = (int)Math.hypot(Math.hypot(Integer.parseInt(str[0]), Integer.parseInt(str[1])),
+							Integer.parseInt(str[2]));
 					sumShort += inte;
 				}
 			} else
@@ -113,8 +114,8 @@ public class Tools
 				for (int i = Parameters.N1; i < Parameters.N; i++)
 				{
 					String[] str = StringUtils.split(container.get(i), " ");
-					inte = (Math.abs(Integer.parseInt(str[3])) + Math.abs(Integer.parseInt(str[4]))
-							+ Math.abs(Integer.parseInt(str[5]))) / 3;
+					inte = (int)Math.hypot(Math.hypot(Integer.parseInt(str[3]), Integer.parseInt(str[4])),
+							Integer.parseInt(str[5]));
 					sumShort += inte;
 				}
 			}
